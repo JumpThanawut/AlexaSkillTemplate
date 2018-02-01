@@ -132,7 +132,7 @@ const handlers = {
 // Add SnapLogic tasks here.
 const tasks = {
     '<intent>': {
-        task_info: {name: '<task name for logging purpose'},
+        task_info: {name: '<task name for logging purpose>'},
         cloud_url: '<cloud_url>',
         method: 'GET',
         headers: {Authorization: 'Authorization: Bearer <bearer_token>'},
@@ -244,6 +244,11 @@ function isArray (value) {
 function delegateSlotCollection(){
     console.log('in delegateSlotCollection');
     console.log('current dialogState: ' + this.event.request.dialogState);
+    if (this.event.request.dialogState == null) {
+        // If the dialog mode is off, dialog state will be undefined.
+        // In this case, we can simply go to completed state. 
+        this.event.request.dialogState = 'COMPLETED';
+    }
     if (this.event.request.dialogState === 'STARTED') {
         console.log('in Beginning');
         var updatedIntent=this.event.request.intent;
